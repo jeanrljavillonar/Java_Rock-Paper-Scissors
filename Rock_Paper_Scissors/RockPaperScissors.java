@@ -9,6 +9,7 @@ public class RockPaperScissors extends JFrame implements ActionListener { // Mai
     private final JButton rockBtn; // Button for "Rock"
     private final JButton paperBtn, scissorsBtn; // Buttons for "Paper" and "Scissors"
     private final JLabel  resultLabel, scoreLabel; // Labels for showing result and score
+    private JLabel choiceU, choiceC;
     private int userScore = 0, computerScore = 0; // Variables to keep track of scores
     
     public RockPaperScissors() { // Constructor to set up the GUI
@@ -21,12 +22,17 @@ public class RockPaperScissors extends JFrame implements ActionListener { // Mai
         rockBtn = new JButton("Rock"); // Create "Rock" button
         paperBtn = new JButton("Paper"); // Create "Paper" button
         scissorsBtn = new JButton("Scissors"); // Create "Scissors" button
+        choiceU = new JLabel("");
+        choiceC = new JLabel("");
+        
         
         // Create panel for buttons
         JPanel buttonPanel = new JPanel(); // Create a panel to hold buttons
         buttonPanel.add(rockBtn); // Add "Rock" button to panel
         buttonPanel.add(paperBtn); // Add "Paper" button to panel
         buttonPanel.add(scissorsBtn); // Add "Scissors" button to panel
+        buttonPanel.add(choiceU); // Add user's choice of Rock/Paper/Scissors
+        buttonPanel.add(choiceC); // Add computer's choice of Rock/Paper/Scissors
         
         // Create result label
         resultLabel = new JLabel("Choose your move!", SwingConstants.CENTER); // Label for result, centered
@@ -38,20 +44,27 @@ public class RockPaperScissors extends JFrame implements ActionListener { // Mai
         add(scoreLabel, BorderLayout.SOUTH); // Add score label to bottom of window
         
         pack(); // Adjust window size to fit components
-        setSize(400, 200); // Set window size
+        setSize(400, 300); // Set window size
         setVisible(true); // Show the window
     }
     
     @Override
     public void actionPerformed(ActionEvent e) { // Handles button clicks
         String userChoice = ""; // Stores user's choice
-        if (e.getSource() == rockBtn) userChoice = "rock"; // If "Rock" clicked
-        if (e.getSource() == paperBtn) userChoice = "paper"; // If "Paper" clicked
-        if (e.getSource() == scissorsBtn) userChoice = "scissors"; // If "Scissors" clicked
+        ImageIcon rock=new ImageIcon(getClass().getClassLoader().getResource("rock.png"));
+        ImageIcon paper=new ImageIcon(getClass().getClassLoader().getResource("paper.png"));
+        ImageIcon scissors=new ImageIcon(getClass().getClassLoader().getResource("scissors.png"));
+        
+        if (e.getSource() == rockBtn) {userChoice = "rock"; choiceU.setIcon(rock);} // If "Rock" clicked
+        if (e.getSource() == paperBtn) {userChoice = "paper"; choiceU.setIcon(paper);} // If "Paper" clicked
+        if (e.getSource() == scissorsBtn) {userChoice = "scissors" ; choiceU.setIcon(scissors);} // If "Scissors" clicked
         
         // Computer's random choice
         String[] options = {"rock", "paper", "scissors"}; // Possible choices
         String computerChoice = options[new Random().nextInt(3)]; // Randomly pick one
+        if (computerChoice == "rock") choiceC.setIcon(rock);
+        if (computerChoice == "paper") choiceC.setIcon(paper);
+        if (computerChoice == "scissors") choiceC.setIcon(scissors);
         
         // Determine winner
         String result = determineWinner(userChoice, computerChoice); // Get result string
